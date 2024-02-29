@@ -15,6 +15,7 @@ defmodule ExBanking.RateLimiter do
     ])
   end
 
+  @spec increase(String.t()) :: {:ok, integer()} | {:error, :too_many_requests_to_user}
   def increase(user) do
     counter = :ets.update_counter(__MODULE__, user, {2, 1}, {user, 0})
 

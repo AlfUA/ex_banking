@@ -7,7 +7,7 @@ defmodule ExBanking.Account do
   def create(user) do
     case DynamicSupervisor.start_child(
            ExBanking.UsersDynamicSupervisor,
-           {ExBanking.Wallet, name: user}
+           {ExBanking.Wallet, user: user}
          ) do
       {:ok, _pid} -> :ok
       {:error, {:already_started, _pid}} -> {:error, :user_already_exists}

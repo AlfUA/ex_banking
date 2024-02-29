@@ -9,8 +9,8 @@ defmodule ExBanking.Wallet do
   # client
   @spec start_link(keyword()) :: {:ok, pid()}
   def start_link(opts) do
-    name = Keyword.fetch!(opts, :name)
-    GenServer.start_link(__MODULE__, [], name: via_tuple(name))
+    user = Keyword.fetch!(opts, :user)
+    GenServer.start_link(__MODULE__, [], name: via_tuple(user))
   end
 
   @spec deposit(user :: String.t(), amount :: number(), currency :: String.t()) ::
@@ -60,7 +60,7 @@ defmodule ExBanking.Wallet do
     {:reply, {:ok, Map.get(state, currency, 0)}, state}
   end
 
-  defp via_tuple(name) do
-    {:via, Registry, {ExBanking.AccountsRegistry, name}}
+  defp via_tuple(user) do
+    {:via, Registry, {ExBanking.AccountsRegistry, user}}
   end
 end
